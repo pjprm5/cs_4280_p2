@@ -7,6 +7,24 @@
 #ifndef TOKEN_H_INCLUDED
 #define TOKEN_H_INCLUDED
 
-//stuff here
+char* keyWordArray[14] = {
+  "begin",
+  "end",
+  "loop",
+  "whole",
+  "void",
+  "exit",
+  "getter",
+  "outter",
+  "main",
+  "if",
+  "then",
+  "assign",
+  "data",
+  "proc"
+};
+
+
+
 
 #endif

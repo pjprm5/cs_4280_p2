@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include "testScanner.h"
 
-char testScanner(int argc, char *argv[])
+int testScanner(int argc, char *argv[])
 {
   printf("testScanner.c begins...\n");
 

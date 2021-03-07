@@ -30,9 +30,12 @@ int main(int argc, char* argv[])
   if (argc < 2 && (isatty(0)))
   {
     printf("Enter a string.\n");
-    fgets(input_buffer, 300, stdin);
-    printf("Here is the user input: %s \n", input_buffer);
-    flag1 = 1; 
+    //fgets(input_buffer, 300, stdin);
+    //printf("Here is the user input: %s \n", input_buffer);
+    flag1 = 1;
+    
+    scanner(stdin);
+
   }
   
   // ./main < list.sp2020 --- File redirection was used. ------------------
@@ -40,6 +43,7 @@ int main(int argc, char* argv[])
   {
     flag1 = 1;
     printf("File was redirected to stdin. \n");
+    scanner(stdin);
    
   }
   
@@ -54,7 +58,10 @@ int main(int argc, char* argv[])
       return -1;
     }
     flag2 = 1;
+    scanner(fptr);
   }
+
+  
 
  
   return 0;

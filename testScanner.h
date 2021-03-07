@@ -6,6 +6,6 @@
 #ifndef TESTSCANNER_H_INCLUDED
 #define TESTSCANNER_H_INCLUDED
 
-char testScanner();
+int testScanner();
 
 #endif
