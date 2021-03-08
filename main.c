@@ -9,8 +9,8 @@
 #include <string.h>
 #include <ctype.h>
 #include "scanner.h"
-#include "testScanner.h"
-#include "token.h"
+
+//#include "token.h"
 
 
 int main(int argc, char* argv[])
