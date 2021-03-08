@@ -15,25 +15,23 @@
 
 int main(int argc, char* argv[])
 {
-  char input_buffer[300] = { 0 };
+  char input_buffer[1024] = { 0 };
   int i = 0;
   int flag1 = 0;
   int flag2 = 0;
 
 
-  fprintf(stderr, "main.c begins..\n");
-  printf("argc = %d \n", argc);
+  //fprintf(stderr, "main.c begins..\n");
+  //printf("argc = %d \n", argc);
 
-  // Parse invocations below --------------------------------------
+  // Parse invocations below ----------------------------------------------
 
   // ./main --- Check if there was a file redirection using isatty
   if (argc < 2 && (isatty(0)))
   {
-    printf("Enter a string.\n");
-    //fgets(input_buffer, 300, stdin);
-    //printf("Here is the user input: %s \n", input_buffer);
     flag1 = 1;
-    
+    printf("Reading from stdin.\n");
+    printf("Type a string out to be tested and then press CNTRL + D when finished.\n");
     scanner(stdin);
 
   }
