@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
   {
     flag1 = 1;
     printf("Reading from stdin.\n");
-    printf("Type a string out to be tested and then press CNTRL + D when finished.\n");
+    printf("Type a string out to be tested and then press CNTRL + D TWICE when finished, do not press enter at all.\n");
     scanner(stdin);
 
   }

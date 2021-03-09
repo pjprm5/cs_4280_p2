@@ -61,14 +61,56 @@ int fsaTable[22][22] = {
   {-1,-1,    -1,  -1,   -1,   -1,   -1,-1,-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1023}  // ]   21
 };
 
+struct instance {
+  int instanceNum;  // four digit code
+  char str[7]; // actual string of token
+  char tokenType[7];// type of token
+};
 
+struct instance printInstance[20] = {
+  
+    {1004, "=", "op_tk"},  
+    {1005, "=>", "op_tk"},
+    {1006, "=<", "op_tk"}, 
+    {1007, "==", "op_tk"}, 
+    {1008, ":", "op_tk"}, 
+    {1009, ":=", "op_tk"}, 
+    {1010, "+", "op_tk"}, 
+    {1011, "-", "op_tk"}, 
+    {1012, "*", "op_tk"}, 
+    {1013, "/", "op_tk"}, 
+    {1014, "%", "op_tk"}, 
+    {1015, ".", "op_tk"}, 
+    {1016, "(", "op_tk"},
+    {1017, ")", "op_tk"}, 
+    {1018, ",", "op_tk"}, 
+    {1019, "{", "op_tk"}, 
+    {1020, "}", "op_tk"}, 
+    {1021, ";", "op_tk"}, 
+    {1022, "[", "op_tk"},
+    {1023, "]", "op_tk"}
+
+};
+
+char *returnString(int digit)
+{
+  int i;
+  for (i = 0; i < 20; i++)
+  {
+    if (digit == printInstance[i].instanceNum)
+    {
+      return printInstance[i].str;
+    }
+  }
+}
+
+
+
+// Struct for Column lookup
 struct opKey {
   int key;
   int value;
 };
-
-
-
 struct opKey lookUp[19] = {
   {'_', 0},
   {'=', 3},
@@ -126,7 +168,7 @@ int findColumn(char nextChar)
 }
 
 
-
+// Keywords to check against
 char* keyWordArray[14] = {
   "begin",
   "end",
@@ -150,7 +192,7 @@ struct token {
   int lineNumber;
   char tokenType;
   int tokenValue;
-  char tokenInstance;
+  char *tokenInstance;
 };
 
 

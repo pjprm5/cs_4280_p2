@@ -12,7 +12,7 @@
 #include "token.h"
 
 // Prototype
-int testScanner(FILE *fptr, int currentChar, int nextChar);
+int testScanner(FILE *fptr, int currentChar, int nextChar, struct token *t);
 
 
 int scanner(FILE *test)
@@ -148,69 +148,153 @@ int scanner(FILE *test)
   fptr = fopen("cleanFile.fs", "r");
   
   // Finally start printing tokens with testScanner
-  
+  struct token t;   // Declare struct
+  t.lineNumber = 0; // Initialize line numss
+
   int currentChar;
   int nextChar;
   do
   {
     currentChar = getc(fptr);
     nextChar = getc(fptr);
-    testScanner(fptr, currentChar, nextChar);
+    testScanner(fptr, currentChar, nextChar, &t);
   }while (currentChar != EOF);
   
-
-  driverScanner(fptr);
 
   return 0;
 }
 
-int testScanner(FILE *fptr, int currentChar, int nextChar)
+int testScanner(FILE *fptr, int currentChar, int nextChar, struct token *t)
 {
-  //printf("Test"); 
-  //int currentChar;
-  //int nextChar;
+  //printf("\nToken Printing Cycle Begins -----\n");
+  //
+  char key_id[9] = { 0 }; // Capture id tokens or keywords in here up to 8 chars
+  
+  int i;
 
-  struct token t;
   //printf("%c%c", currentChar, nextChar);
-  int stateColumn;    //Holds column
-  int state = 0;      //Holds Row
+  int stateColumn;    // Holds column
+  int state = 0;      // Holds Row
   int nextState = 0;
- 
-  //currentChar = getc(fptr);
-  //nextChar = getc(fptr);
+  int nextChar2;      // Placeholder for id loop
+  int id_flag = 0;        // Flag if we get an id
+  int num_flag = 0;    // Flag if we get a num
+  
+  // Checking for digits
+  if (isdigit(currentChar))
+  {
+    ungetc(nextChar, fptr);
+    num_flag = 1;
+    key_id[0] = currentChar;
+    for (i = 1; i < 8; i++)
+    {
+      nextChar2 = getc(fptr);
+      if (isdigit(nextChar2))
+      {
+        key_id[i] = nextChar2;
+      }
+      else
+      {
+        ungetc(nextChar2, fptr);
+        break;
+      }
+    } 
+  }
 
+  // Checking for identifiers and keywords
+  if (islower(currentChar) || currentChar == '_')
+  {
+    ungetc(nextChar, fptr); // unget nextChar so we can get the true ID
+    id_flag = 1;
+    key_id[0] = currentChar;
+    for (i = 1; i < 8; i++)
+    {
+      nextChar2 = getc(fptr);
+      if (isalpha(nextChar2) || isdigit(nextChar2))
+      {
+        key_id[i] = nextChar2;
+      }
+      else
+      {
+        ungetc(nextChar2, fptr); // unget nextChar2 because not part of ID
+        break;
+      }
+    }
+   
+  }
+  
+  if (id_flag == 1)
+  {
+    //printf("ID CAPTURED: %s\n", key_id);
+  }
+
+  if (num_flag == 1)
+  {
+    //printf("NUM CAPTURED: %s\n", key_id);
+  }
+  
+  
+
+  // Keep track of line numbers per token
+  if (currentChar == '\n')
+  {
+    t->lineNumber++;
+  }
+ 
+  // Start grabbing column information
   stateColumn = findColumn(currentChar);
   state = fsaTable[state][stateColumn];
-  printf("currentChar: %c\n", currentChar);
-  printf("stateColumn currentChar: %d\n", stateColumn);
-  printf("state currentChar: %d\n", state);
+  //printf("currentChar: %c\n", currentChar);
+  //printf("stateColumn currentChar: %d\n", stateColumn);
+  //printf("state currentChar: %d\n", state);
   
   stateColumn = findColumn(nextChar);
   nextState = fsaTable[state][stateColumn];
-  printf("nextChar: %c\n", nextChar);
-  printf("stateColumn nextChar: %d\n", stateColumn);
-  printf("state nextChar: %d\n", nextState);
+  //printf("nextChar: %c\n", nextChar);
+  //printf("stateColumn nextChar: %d\n", stateColumn);
+  //printf("state nextChar: %d\n", nextState);
   
-  if (nextState == -1)
+
+  
+   
+  // Print single operator tokens
+  if (nextState == -1 && !(isspace(currentChar)) && state != 3 && id_flag != 1)
   {
-    t.tokenValue = fsaTable[state][21];
-    printf("Token value: %d\n", t.tokenValue);
+    t->tokenValue = fsaTable[state][21];
+    t->tokenInstance = returnString(t->tokenValue); 
+    printf("Line: %d Value: op_tk Instance: %s \n", t->lineNumber, t->tokenInstance);
+   
+  }
+  
+  // Print double operator tokens
+  if (nextState != -1 && nextState != -2 && !(isspace(currentChar)) && state != 3 && id_flag != 1)
+  {
+   
+    t->tokenValue = fsaTable[state][stateColumn];
+    t->tokenInstance = returnString(t->tokenValue); 
+    printf("Line: %d Value: op_tk Instance: %s \n", t->lineNumber, t->tokenInstance);
+  }
+  
+  // Print number tokens
+  if (state == 3 && !(isspace(currentChar)) && num_flag == 1 && id_flag != 1)
+  {
+    t->tokenValue = fsaTable[4][21];
+    //t->tokenInstance = key_id;
+    printf("Line: %d Value: num_tk Instance: %s \n", t->lineNumber, key_id);
   }
 
-  if (nextState != -1 && nextState != -2)
+  // Print id && keyword tokens
+  if (id_flag == 1 && num_flag != 1)
   {
-    t.tokenValue = fsaTable[state][stateColumn];
-    printf("Token value: %d\n", t.tokenValue);
+    //t->tokenValue = fsaTable[3][21];
+    printf("Line: %d Value: id_tk Instance: %s \n", t->lineNumber, key_id);
   }
-
-
-
-
-  if (currentChar == '\n')
+    
+  if (t->tokenValue != 1005 && t->tokenValue != 1006 && t->tokenValue != 1007 && t->tokenValue != 1009)
   {
-    t.lineNumber++;
+    //printf("Ungetting nextChar: %c\n", nextChar);
+    ungetc(nextChar, fptr);
   }
-
    
 } 
 
