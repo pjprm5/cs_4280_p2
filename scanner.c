@@ -180,6 +180,7 @@ int testScanner(FILE *fptr, int currentChar, int nextChar, struct token *t)
   int id_flag = 0;        // Flag if we get an id
   int num_flag = 0;    // Flag if we get a num
   
+ 
   // Checking for digits
   if (isdigit(currentChar))
   {
