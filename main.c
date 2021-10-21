@@ -1,7 +1,8 @@
 // Paul Passiglia
 // cs_4280
-// 3/6/2021
+// 10/19/2021
 // P1: The Scanner
+// main.c
 
 
 #include <stdio.h>

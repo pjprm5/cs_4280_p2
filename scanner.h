@@ -1,5 +1,6 @@
 // Paul Passiglia
-// cs_4280
+// cs_428
+// 10/19/2021
 // P1: The Scanner
 // scanner.h
 

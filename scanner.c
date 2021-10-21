@@ -1,5 +1,6 @@
 // Paul Passiglia
 // cs_4280
+// 10/19/2021
 // P1: The Scanner
 // scanner.c
 
@@ -55,14 +56,14 @@ int scanner(FILE *test)
   // Searching for comments
   for (i = 0; i < strlen(str); i++)
   {
-    if ((str[i] == '$') && (str[i+1] == '$'))
+    if ((str[i] == '&') && (str[i+1] == '&'))
     {
       commentPresent++;
       commentHead++;
       //printf("Searching for tail end of comment $$ \n");
       for (j = i+2; j < strlen(str); j++)
       {
-        if ((str[j] == '$') && (str[j+1] == '$'))
+        if ((str[j] == '&') && (str[j+1] == '&'))
         {
           commentTail++;
           //printf("Tail end of comment found! \n");
@@ -100,15 +101,15 @@ int scanner(FILE *test)
   {
     for (i = 0; i < strlen(str); i++)
     {
-      if (str[i] != '$' && commentPresent == 0)
+      if (str[i] != '&' && commentPresent == 0)
       {
         cleanStr[i] = str[i];
       }
-      if (str[i] == '$' && str[i+1] == '$')
+      if (str[i] == '&' && str[i+1] == '&')
       {
         commentPresent++;
       }
-      if ((commentPresent != 1) && (commentPresent % 2 == 0) && (str[i] != '$'))
+      if ((commentPresent != 1) && (commentPresent % 2 == 0) && (str[i] != '&'))
       {
         cleanStr[i] = str[i];
       } 
@@ -203,7 +204,7 @@ int testScanner(FILE *fptr, int currentChar, int nextChar, struct token *t)
   }
 
   // Checking for identifiers and keywords
-  if (islower(currentChar) || currentChar == '_')
+  if (islower(currentChar) || currentChar == '$')
   {
     ungetc(nextChar, fptr); // unget nextChar so we can get the true ID
     id_flag = 1;
@@ -283,7 +284,7 @@ int testScanner(FILE *fptr, int currentChar, int nextChar, struct token *t)
     //t->tokenInstance = key_id;
     printf("Line: %d Value: num_tk Instance: %s \n", t->lineNumber, key_id);
   }
-
+  
   // Print id && keyword tokens
   if (id_flag == 1 && num_flag != 1)
   {
@@ -296,6 +297,7 @@ int testScanner(FILE *fptr, int currentChar, int nextChar, struct token *t)
     //printf("Ungetting nextChar: %c\n", nextChar);
     ungetc(nextChar, fptr);
   }
+  
    
 } 
 

@@ -1,5 +1,6 @@
 // Paul Passiglia
 // cs_4280
+// 10/19/2021
 // P1: The Scanner
 // token.h
 
@@ -36,7 +37,7 @@ int fsaTable[22][22] = {
    1023: ]     */                    
   //                        = => =< == : := + - * / % . ( ) , { } ; [ ]
   //0  1     2     3     4     5     6  7  8  9   10  11  12  13  14  15  16  17  18  19  20  21    <-Column                        
-  //_  a     1     =     >     <     :  +  -  *   /   %   .   (   )   ,   {   }   ;   [   ]   ws            State
+  //$  a     1     =     >     <     :  +  -  *   /   %   .   (   )   ,   {   }   ;   [   ]   ws            State
   { 1, 2,    3,    4,    5,    6,    7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22  }, //     0
   {-1, 1002, 1002,-1,   -2,   -1,   -1,-1,-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -2  }, // _   1
   {-1, 2,    3,   -1,   -1,   -1,   -1,-1,-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1002}, // a   2
@@ -112,7 +113,7 @@ struct opKey {
   int value;
 };
 struct opKey lookUp[19] = {
-  {'_', 0},
+  {'$', 0},
   {'=', 3},
   {'>', 4},
   {'<', 5},
@@ -169,22 +170,24 @@ int findColumn(char nextChar)
 
 
 // Keywords to check against
-char* keyWordArray[14] = {
-  "begin",
-  "end",
+/*char* keyWordArray[15] = {
+  "start",
+  "stop",
   "loop",
-  "whole",
-  "void",
+  "while",
+  "for",
+  "label",
   "exit",
-  "getter",
-  "outter",
-  "main",
+  "listen",
+  "talk",
+  "program",
   "if",
   "then",
   "assign",
-  "data",
-  "proc"
-};
+  "declare",
+  "jump",
+  "else"
+}*/
 
 
 
