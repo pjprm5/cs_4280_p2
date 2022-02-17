@@ -1,0 +1,40 @@
+Paul Passiglia
+cs_4280
+10/19/2021
+P1: The Scanner
+
+Option 3: FSA Table
+testScanner driver is a function located within scanner.c
+
+1st run cmd: make
+
+All invocations should be working correctly.
+From my understanding you wanted this program to be invocated with the exe object "scanner", otherwise 
+it would have been exe object "main". Maybe I misunderstood.
+
+Problems:
+I do have a segfault in here, but the programs still works and tokenizes but the segfault is at the end.
+I know what function is causing it but I failed at finding a fix atm, if I take the function out then most of
+the tokenizing doesn't happen.
+
+When displaying ID and Number tokens, all of them are displayed correctly. But there are dupes of partial strings throughout.
+
+
+
+
+--> For STDIN:
+
+run cmd: ./scanner
+
+You will be prompted to type a string. When done typing pres CNTRL + D twice without pressing enter. (Yeah its dumb.)
+
+--> For File Redirection to STDIN: 
+
+run cmd: ./scanner < filename
+
+--> For Reading from File:
+
+run cmd: ./scanner filename
+
+Any input from STDIN or files is cleansed initially to remove comments, I then put the cleansed input back into a cleansFile.fs,
+which is separate from any intial file that a user could put in, fomr there the actual tokenizing will take place.
